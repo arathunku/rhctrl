@@ -1,0 +1,15 @@
+name: rhctrl
+version: "1.0"
+author: arathunku <arathunku+noreply@gmail.com>
+about: Controls /etc/hosts
+args:
+    - config:
+        short: i
+        long: interval
+        value_name: INTERVAL
+        help: Sets a custom config file
+        takes_value: true
+    - verbose:
+        short: v
+        multiple: true
+        help: Sets the level of verbosity
