@@ -13,6 +13,7 @@ use chrono::Duration;
 use clap::App;
 use regex::{Captures, Regex};
 
+#[derive(Debug)]
 struct Entry {
     blocked_hours: Vec<(DateTime<Local>, DateTime<Local>)>,
 }
@@ -118,13 +119,14 @@ impl Entry {
 }
 
 fn format_line<'a>(entry: &Entry, line: &'a mut String) -> String {
-    if entry.is_blocked() && !line.starts_with("#") {
-        return format!("# {}", line);
-    }
-
-    if !entry.is_blocked() && line.starts_with("#") {
-        line.remove(0);
-        return line.to_string();
+    if line.starts_with("#") {
+        if entry.is_blocked() {
+            line.remove(0);
+        }
+    } else {
+        if !entry.is_blocked() {
+            return format!("#{}", line);
+        }
     }
 
     return line.to_string();
@@ -187,9 +189,11 @@ fn main() {
     match matches.value_of("interval") {
         Some(minutes) => loop {
             run(&matches);
-            thread::sleep(Duration::minutes(
-                minutes.parse::<i64>().expect("cannot parse interval"),
-            ).to_std().expect("Interval cannot be lower than 0!"));
+            thread::sleep(
+                Duration::minutes(minutes.parse::<i64>().expect("cannot parse interval"))
+                    .to_std()
+                    .expect("Interval cannot be lower than 0!"),
+            );
         },
         None => {
             run(&matches);
