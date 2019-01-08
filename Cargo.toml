@@ -7,3 +7,7 @@ authors = ["arathunku <arathunku@gmail.com>"]
 clap = {version = "2.29", features = ["yaml"]}
 chrono = "0.4"
 regex = "0.2"
+
+[[bin]]
+name = "rhctrl"
+path = "src/main.rs"
