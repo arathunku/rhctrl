@@ -4,6 +4,6 @@ workflow "Run tests" {
 }
 
 action "Check Rust 1.31" {
-  uses = "actions/docker/cli@76ff57a6c3d817840574a98950b0c7bc4e8a13a8"
+  uses = "actions/docker/cli@latest"
   runs = "build -f .github/Dockerfile . -t rhctrl:latest"
 }
